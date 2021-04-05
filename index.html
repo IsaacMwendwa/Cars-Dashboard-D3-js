@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Student's First Multiple Coordinated View</title>
+    <meta name="description" content="Student's First Multiple Coordinated View" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <script src="https://d3js.org/d3.v6.js"></script>
+    <link href="./mvc.css" rel="stylesheet" />
+    <style>
+      rect {
+        fill: steelblue;
+        fill-opacity: 0.8;
+      }
+
+      rect:hover {
+        fill-opacity: 1;
+      }
+
+      path {
+        fill-opacity: 0.8;
+      }
+
+      .selected,
+      path:hover {
+        fill-opacity: 1;
+      }
+
+      .axis {
+        font-size: smaller;
+      }
+
+      main {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      h3 {
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Student's First Multiple Coordinated View</h1>
+
+    <div>
+      <label for="cylinder-number"><strong>Number of Cylinders:</strong></label>
+      <select id="cylinder-number">
+        <option value="" selected>All Cylinders</option>
+        <option value="4">4 Cylinders</option>
+        <option value="6">6 Cylinders</option>
+        <option value="8">8 Cylinders</option>
+      </select>
+      <strong>Selected Origin: </strong>
+      <span id="selectedOrigin"></span>
+    </div>
+
+    <main>
+     <section>
+        <h3>Origin Pie Chart</h3>
+        <svg id="Origin"></svg>
+     </section>
+      <section>
+        <h3>Model_Year Histogram</h3>
+        <svg id="Model_Year"></svg>
+      </section>
+      <section>
+        <h3>Cylinders Histogram</h3>
+        <svg id="Cylinders"></svg>
+      </section>
+    </main>
+
+    <script>
+      const state = {
+        data: [],
+        cylinderClass: "",
+        selectedOrigin: null,
+        //selectedModel_Year: null,
+      };
+
+      function createHistogram(svgSelector) {
+        const margin = {
+          top: 40,
+          bottom: 10,
+          left: 120,
+          right: 20,
+        };
+        const width = 600 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
+
+        // Creates sources <svg> element
+        const svg = d3
+          .select(svgSelector)
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom);
+
+        // Group used to enforce margin
+        const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Scales setup
+        const xscale = d3.scaleLinear().range([0, width]);
+        const yscale = d3.scaleLinear().range([0, height]);
+
+        // Axis setup
+        const xaxis = d3.axisTop().scale(xscale);
+        const g_xaxis = g.append("g").attr("class", "x axis");
+        const yaxis = d3.axisLeft().scale(yscale);
+        const g_yaxis = g.append("g").attr("class", "y axis");
+
+        function update(new_data) {
+          //: (IPerson[] & {x0: number, x1: number})[]
+          //update the scales
+          xscale.domain([0, d3.max(new_data, (d) => d.length)]);
+          console.log(xscale);
+          yscale.domain([new_data[0].x0, new_data[new_data.length - 1].x1]);
+          //render the axis
+          g_xaxis.transition().call(xaxis);
+          g_yaxis.transition().call(yaxis);
+
+          // Render the chart with new data
+
+          // DATA JOIN
+          const rect = g
+            .selectAll("rect")
+            .data(new_data)
+            .join(
+              (enter) => {
+                // ENTER
+                // new elements
+                const rect_enter = enter
+                  .append("rect")
+                  .attr("x", 0) //set intelligent default values for animation
+                  .attr("y", 0)
+                  .attr("width", 0)
+                  .attr("height", 0);
+                rect_enter.append("title");
+                return rect_enter;
+              },
+              // UPDATE
+              // update existing elements
+              (update) => update,
+              // EXIT
+              // elements that aren't associated with data
+              (exit) => exit.remove()
+            );
+
+          // ENTER + UPDATE
+          // both old and new elements
+          rect
+            .transition()
+            .attr("height", (d) => yscale(d.x1) - yscale(d.x0) - 2)
+            .attr("width", (d) => xscale(d.length))
+            .attr("y", (d) => yscale(d.x0) + 1);
+
+          rect.select("title").text((d) => `${d.x0}: ${d.length}`);
+        }
+
+        return update;
+      }
+
+      function createPieChart(svgSelector, stateAttr, colorScheme) {
+        const margin = 10;
+        const radius = 100;
+
+        // Creates sources <svg> element
+        const svg = d3
+          .select(svgSelector)
+          .attr("width", radius * 2 + margin * 2)
+          .attr("height", radius * 2 + margin * 2);
+
+        // Group used to enforce margin
+        const g = svg.append("g").attr("transform", `translate(${radius + margin},${radius + margin})`);
+
+        const pie = d3
+          .pie()
+          .value((d) => d.values.length)
+          .sortValues(null)
+          .sort(null);
+        const arc = d3.arc().outerRadius(radius).innerRadius(0);
+        const noSlice = [
+          { startAngle: 0, endAngle: Math.PI * 2, padAngle: 0 },
+          { startAngle: 0, endAngle: 0, padAngle: 0 },
+        ];
+
+        const cscale = d3.scaleOrdinal(colorScheme);
+
+        function update(new_data) {
+          //{key: string, values: IPerson[]}[]
+          const pied = pie(new_data);
+
+          //console.log(d)
+
+          // Render the chart with new data
+
+          cscale.domain(new_data.map((d) => d.key));
+
+          // DATA JOIN
+          const old = g.selectAll("path").data();
+
+          function tweenArc(d, i) {
+            const interpolate = d3.interpolateObject(old[i], d);
+            return (t) => arc(interpolate(t));
+          }
+
+          // DATA JOIN
+          const path = g
+            .selectAll("path")
+            .data(pied, (d) => d.data.key)
+            .join(
+              // ENTER
+              // new elements
+              (enter) => {
+                const path_enter = enter
+                  .append("path")
+                  .attr("d", (d, i) => arc(noSlice[i]))
+                  .on("click", (e, d) => {
+                    if (state[stateAttr] === d.data.key) {
+                      state[stateAttr] = null;
+                    } else {
+                      state[stateAttr] = d.data.key;
+                    }
+                    updateApp();
+                  });
+                path_enter.append("title");
+                return path_enter;
+              },
+              (update) => update,
+              (exit) => exit.transition().attrTween("d", tweenArc).remove()
+            );
+
+          // ENTER + UPDATE
+          // both old and new elements
+          path
+            .classed("selected", (d) => d.data.key === state.selectedOrigin)
+            .transition()
+            .attrTween("d", tweenArc)
+            .style("fill", (d) => cscale(d.data.key));
+
+          path.select("title").text((d) => `${d.data.key}: ${d.data.values.length}`);
+        }
+        return update;
+      }
+
+      /////////////////////////
+
+      const modelYearHistogram = createHistogram("#Model_Year");
+      //const originPieChart = createPieChart("#Origin", "selectedOrigin", d3.schemeSet3);
+      const cylindersHistogram = createHistogram("#Cylinders");
+
+      function filterData() {
+        return state.data.filter((d) => {
+          if (state.cylinderClass && d.Cylinders !== state.cylinderClass) {
+            return false;
+          }
+          if (state.selectedOrigin && d.Origin !== state.selectedOrigin) {
+            return false;
+          }
+          if (state.selectedModel_Year && d.Model_Year !== state.selectedModel_Year) {
+            return false;
+          }
+          return true;
+        });
+      }
+
+      function wrangleData(filtered) {
+        const modelYearHistogram = d3
+          .bin()
+          .domain([70, 82])
+          .thresholds(10)
+          .value((d) => d.Cylinders);
+
+        const modelYearHistogramData = modelYearHistogram(filtered);
+
+        // always the two categories
+        const OriginPieData = ["American", "Japanese", "European"].map((key) => ({
+          key,
+          values: filtered.filter((d) => d.Origin === key),
+        }));
+
+        const cylindersHistogram = d3
+          .bin()
+          .domain([0, 10])
+          .thresholds(10)
+          .value((d) => d.Cylinders);
+
+        const cylindersHistogramData = cylindersHistogram(filtered);
+
+
+        return {
+          modelYearHistogramData,
+          OriginPieData,
+          cylindersHistogramData,
+        };
+      }
+
+      function updateApp() {
+        const filtered = filterData();
+
+        const { modelYearHistogramData, OriginPieData, cylindersHistogramData } = wrangleData(filtered);
+        modelYearHistogram(modelYearHistogramData);
+        //originPieChart(OriginPieData);
+        cylindersHistogram(cylindersHistogramData);
+
+        d3.select("#selectedOrigin").text(state.selectedOrigin || "None");
+        d3.select("#selectedModel_Year").text(state.selectedModel_Year || "None");
+      }
+
+      d3.csv("https://raw.githubusercontent.com/IsaacMwendwa/dataViz/main/titanic3.csv").then((parsed) => {
+        state.data = parsed.map((row) => {
+          row.Model_Year = parseInt(row.Model_Year, 10);
+          row.Cylinders = parseInt(row.Cylinders, 10);
+          return row;
+        });
+
+        updateApp();
+      });
+
+      //interactivity
+      d3.select("#cylinder-number").on("change", function () {
+        const selected = d3.select(this).property("value");
+        state.cylinderClass = selected;
+        updateApp();
+      });
+    </script>
+  </body>
+</html>
