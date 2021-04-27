@@ -215,10 +215,10 @@
                 </p>
                 <p>This filters the data based on the selection, and updates the visualizations</p>
                 <p><b>Interactivity of Individual Visualizations</b></p>
-                <p><b>Bubble Chart: </b>Brushing with zooming</p>
-                <p><b>Histogram: </b>Changing number of bins</p>
-                <p><b>Connected Scatter Plot: </b>Using selection buttons</p>
-                <p><b>Heatmap: </b>Labelling</p>
+                <p><b>1. Bubble Chart: </b>Brushing with zooming</p>
+                <p><b>2. Histogram: </b>Changing number of bins</p>
+                <p><b>3. Connected Scatter Plot: </b>Using selection buttons</p>
+                <p><b>4. Heatmap: </b>Labelling</p>
                 
 
             </div>
@@ -462,8 +462,7 @@
                                 .attr("transform",
                                     "translate(" + margin.left + "," + margin.top + ")");
 
-                            // get the data
-                            //d3.csv("https://raw.githubusercontent.com/IsaacMwendwa/dataViz/main/a1-cars.csv", function (data) {
+                           
 
 
                             // Defining graph title and axis labels
@@ -591,8 +590,7 @@
                                 .attr("transform",
                                     "translate(" + margin.left + "," + margin.top + ")");
 
-                            //Read the data
-                            //d3.csv("https://raw.githubusercontent.com/IsaacMwendwa/dataViz/main/a1-cars.csv", function (data) {
+                            
 
                             // Defining graph title and axis labels
                             const xAxisLabel = "Model_Year";
@@ -636,8 +634,7 @@
                                     })
                                 };
                             });
-                            // I strongly advise to have a look to dataReady with
-                            // console.log(dataReady)
+                            
 
                             // A color scale: one color for each group
                             var myColor = d3.scaleOrdinal()
@@ -756,8 +753,7 @@
                                 .attr("transform",
                                     "translate(" + margin.left + "," + margin.top + ")");
 
-                            //Read the data
-                            //d3.csv("https://raw.githubusercontent.com/vjajala/dataViz/main/a1-cars.csv", function (data) {
+                            
 
                             // Labels of row and columns -- Origin and Model_Year
                             var myOrigin = d3.map(data, function (d) { return d.Origin; }).keys()
@@ -875,8 +871,8 @@
 
 
 
-                        //reading data: a1-cars.csv
-                        d3.csv("https://raw.githubusercontent.com/IsaacMwendwa/dataViz/main/a1-cars.csv", function (data) {
+                        //reading data: a1-cars dataset
+                        d3.csv("https://raw.githubusercontent.com/karthikkakarla9/dataViz/main/a1-cars-1.csv", function (data) {
 
                             // List of groups
                             var allGroup = d3.map(data, function (d) { return (d.Origin) }).keys()
