@@ -84,6 +84,14 @@
             height: 400px;
         }
 
+        #histogram_label {
+            position: absolute;
+            top: 510px;
+            left: 700px;
+            width: 200px;
+            height: 400px;
+        }
+
         #connectedScatter {
             position: absolute;
             top: 600px;
@@ -219,7 +227,7 @@
                 <p><b>2. Histogram: </b>Changing number of bins</p>
                 <p><b>3. Connected Scatter Plot: </b>Using selection buttons</p>
                 <p><b>4. Heatmap: </b>Labelling</p>
-                
+
 
             </div>
 
@@ -236,7 +244,8 @@
 
                     <div id="bubbleChart"></div>
                     <div id="connectedScatter"></div>
-                    <div id="histogram">
+                    <div id="histogram"></div>
+                    <div id="histogram_label">
                         <p>
                             <label>Change number of bins</label>
                             <input type="number" min="1" max="100" step="10" value="20" id="nBin">
@@ -272,7 +281,7 @@
                                 .attr("transform",
                                     "translate(" + margin.left + "," + margin.top + ")");
 
-            
+
 
                             // Defining graph title and axis labels
                             const xAxisLabel = "Horsepower";
@@ -462,7 +471,7 @@
                                 .attr("transform",
                                     "translate(" + margin.left + "," + margin.top + ")");
 
-                           
+
 
 
                             // Defining graph title and axis labels
@@ -590,7 +599,7 @@
                                 .attr("transform",
                                     "translate(" + margin.left + "," + margin.top + ")");
 
-                            
+
 
                             // Defining graph title and axis labels
                             const xAxisLabel = "Model_Year";
@@ -634,7 +643,7 @@
                                     })
                                 };
                             });
-                            
+
 
                             // A color scale: one color for each group
                             var myColor = d3.scaleOrdinal()
@@ -753,7 +762,7 @@
                                 .attr("transform",
                                     "translate(" + margin.left + "," + margin.top + ")");
 
-                            
+
 
                             // Labels of row and columns -- Origin and Model_Year
                             var myOrigin = d3.map(data, function (d) { return d.Origin; }).keys()
