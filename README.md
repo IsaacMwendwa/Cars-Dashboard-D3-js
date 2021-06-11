@@ -1,6 +1,6 @@
 # final-project-d3.js
 
-### Current App Link:
+### Current App Link: https://final-project-d3-js.herokuapp.com
 
 ### Introduction
 This repo contains the code for a dashboard of Multiple Coordinated Interactive Visualizations in D3.js. The dataset used for this project is the a1-cars.csv dataset. The Visualization charts implemented are:
