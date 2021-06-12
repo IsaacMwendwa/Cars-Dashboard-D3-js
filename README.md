@@ -1,4 +1,4 @@
-# final-project-d3.js
+# Cars-Dashboard-D3-js
 
 ### Current App Link: https://final-project-d3-js.herokuapp.com
 
