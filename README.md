@@ -3,10 +3,10 @@
 ## Current App Link: https://final-project-d3-js.herokuapp.com
 
 ## Table of Contents
-1. # Introduction
-2. #Installation
-3. #Usage
-#
+* [Introduction](#Introduction)
+* [Installation](#Installation)
+* [Usage](#Usage)
+* [Contributions](#Contributions)
 
 ## Introduction
 This repo contains the code for a dashboard of Multiple Coordinated and Interactive Visualizations in D3.js. The dataset used for this project is the a1-cars.csv dataset, which can be found at [DataViz Datasets](https://github.com/IsaacMwendwa/dataViz-datasets). The Visualization charts implemented are:
