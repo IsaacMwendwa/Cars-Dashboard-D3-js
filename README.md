@@ -7,6 +7,8 @@
 * [Installation](#Installation)
 * [Usage](#Usage)
 * [Contributions](#Contributions)
+* [Bug/Feature Request](#Bug/Feature Request)
+* [Authors](#Authors)
 
 ## Introduction
 This repo contains the code for a dashboard of Multiple Coordinated and Interactive Visualizations in D3.js. The dataset used for this project is the a1-cars.csv dataset, which can be found at [DataViz Datasets](https://github.com/IsaacMwendwa/dataViz-datasets). The Visualization charts implemented are:
