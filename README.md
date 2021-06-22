@@ -25,3 +25,13 @@ Ensure you have Internet connectivity, and double-click the index.html file to o
 
 ## Contributions
 Contributions are welcome using pull requests
+
+## Authors
+
+* **[Isaac Mwendwa](https://github.com/IsaacMwendwa)**
+    
+[![github follow](https://img.shields.io/github/followers/IsaacMwendwa?label=Follow_on_GitHub)](https://github.com/IsaacMwendwa)
+
+
+See also the list of [Contributors](https://github.com/IsaacMwendwa/coordination-of-multiple-viz/contributors) who participated in this project.
+
