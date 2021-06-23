@@ -36,9 +36,9 @@ Contributions are welcome using pull requests. To contribute, follow these steps
 9. Create the pull request. See the GitHub documentation on [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
 ## Bug / Feature Request
-If you find a bug (the website couldn't handle the query and/or gave undesired results), kindly open an issue [here](https://github.com/IsaacMwendwa/coordination-of-multiple-viz/issues/new) by including your search query and the expected result.
+If you find a bug (the website couldn't handle the query and/or gave undesired results), kindly open an issue [here](https://github.com/IsaacMwendwa/Cars-Dashboard-D3-js/issues/new) by including your search query and the expected result.
 
-If you'd like to request a new function, feel free to do so by opening an issue [here](https://github.com/IsaacMwendwa/coordination-of-multiple-viz/issues/new). Please include sample queries and their corresponding results.
+If you'd like to request a new function, feel free to do so by opening an issue [here](https://github.com/IsaacMwendwa/Cars-Dashboard-D3-js/issues/new). Please include sample queries and their corresponding results.
 
 
 ## Authors
