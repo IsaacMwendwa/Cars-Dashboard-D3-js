@@ -1,6 +1,6 @@
 # Cars-Dashboard-D3-js
 
-## Current App Link: https://final-project-d3-js.herokuapp.com
+## Current App Link: https://cars-dashboard-d3js.herokuapp.com
 
 ## Table of Contents
 * [Introduction](#Introduction)
